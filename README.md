@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Police Awareness Quiz
+
+A TV-friendly quiz application for police awareness events. Participants register with their name and phone number, answer randomized Tamil questions, and are eliminated immediately upon a wrong answer. Police staff manage questions and view results through a protected dashboard.
+
+## Tech Stack
+
+- **Next.js** (App Router) + TypeScript
+- **Tailwind CSS** + shadcn/ui
+- **Convex** — database and real-time backend
+- **Clerk** — authentication for police staff
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up Clerk
+
+1. Create an application at [clerk.com](https://clerk.com)
+2. Copy your API keys into `.env.local`:
+
+```bash
+cp .env.local.example .env.local
+```
+
+### 3. Set up Convex
+
+```bash
+npx convex dev
+```
+
+This will prompt you to log in, create a project, and write `NEXT_PUBLIC_CONVEX_URL` to `.env.local`.
+
+### 4. Run the app
+
+In a second terminal:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Route | Access | Purpose |
+|-------|--------|---------|
+| `/` | Public | Landing page |
+| `/register` | Public | Participant registration |
+| `/quiz` | Public | Quiz interface (TV/projector) |
+| `/result` | Public | Score and thank-you screen |
+| `/dashboard` | Staff (Clerk) | Statistics and overview |
+| `/questions` | Staff (Clerk) | Question management |
 
-## Learn More
+## Quiz Rules
 
-To learn more about Next.js, take a look at the following resources:
+- Questions are in Tamil
+- 100 randomized questions per attempt (or fewer if bank is smaller)
+- 1 point per correct answer
+- Wrong answer ends the quiz immediately
+- Results stored in Convex
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Staff Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- View total participants, attempts, and highest score
+- Manage questions (add, edit, delete, enable/disable)
+- View recent participants and quiz results
